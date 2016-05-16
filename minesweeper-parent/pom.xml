@@ -38,6 +38,14 @@
 		<main.class>view.Main</main.class>
 		<site.basedir>${project.basedir}</site.basedir>
 	</properties>
+	<scm>
+		<connection>
+			scm:https://github.com/rabai/minesweeper.git
+		</connection>
+		<url>
+			https://github.com/rabai/minesweeper.git
+		</url>
+	</scm>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

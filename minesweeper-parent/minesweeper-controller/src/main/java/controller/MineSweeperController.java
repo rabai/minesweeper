@@ -150,14 +150,14 @@ public class MineSweeperController {
 		// sorfolytonosan tölti
 		for (int y = 0; y < yTiles; y++) {
 			for (int x = 0; x < xTiles; x++) {
-				Data filled = new Data(x, y, Math.random() < 0.1);
+				Data filled = new Data(x, y, Math.random() < 0.1);	//mineSize == XTiles+YTiles-2
 				filled.setTile(new Rectangle(TILESIZE - 2, TILESIZE - 2));
 				filled.getTile().setStroke(Color.BLUE);
 				filled.getTile().setFill(Color.GREY);
 				filled.setText(new Text());
 				filled.getText().setFont(Font.font(18));
 				filled.getText().setText(filled.isMine() ? "X" : "");
-				filled.getText().setVisible(true);
+				filled.getText().setVisible(false);
 				if (filled.isMine()) {
 					filled.setPicture(new ImageView(new Image(getClass().getResourceAsStream("/images/imgBomb.png"))));
 					filled.getPicture().setFitWidth(filled.getTile().getWidth());
@@ -197,7 +197,7 @@ public class MineSweeperController {
 			filled.setText(new Text());
 			filled.getText().setFont(Font.font(18));
 			filled.getText().setText(filled.isMine() ? "X" : "");
-			filled.getText().setVisible(true);
+			filled.getText().setVisible(false);
 			if (filled.isMine()) {
 				filled.setPicture(new ImageView(new Image(getClass().getResourceAsStream("/images/imgBomb.png"))));
 				filled.getPicture().setFitWidth(filled.getTile().getWidth());
