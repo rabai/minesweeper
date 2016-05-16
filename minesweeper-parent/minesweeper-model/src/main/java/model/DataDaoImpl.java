@@ -96,6 +96,10 @@ public class DataDaoImpl implements DataDao {
 		Games games;
 		List<String> savedGameIds = null;
 		games = loadMines();
+		if(games == null){
+			games = new Games();
+			logger.info("INFO - Nem volt még elmentett játékállás.");
+		}
 		savedGameIds = new ArrayList<>(games.getGames().size());
 		for (Game game : games.getGames()) {
 			logger.debug("DEBUG - Hozzáadva a return listához: {}", game.getId());
@@ -112,6 +116,7 @@ public class DataDaoImpl implements DataDao {
 	@Override
 	public Games loadMines() {
 		File file = new File(System.getProperty("user.home") + "/mineSweeperApp", "/db.xml");
+		file.mkdir();
 		JAXBContext jaxbContext;
 		Games readGames = null;
 		try {
