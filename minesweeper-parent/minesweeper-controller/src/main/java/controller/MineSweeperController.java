@@ -182,7 +182,6 @@ public class MineSweeperController {
 				root.getChildren().add(filled);
 			}
 		}
-		//hosszúsága:xTiles*TILESIZE
 		root.setTranslateX((WIDTH-xTiles*TILESIZE)/2-10);
 		fillText();
 		return root;
@@ -229,6 +228,7 @@ public class MineSweeperController {
 			board[mine.getX()][mine.getY()] = filled;
 			root.getChildren().add(filled);
 		}
+		root.setTranslateX((WIDTH-xTiles*TILESIZE)/2-10);
 		fillText();
 		return root;
 	}
