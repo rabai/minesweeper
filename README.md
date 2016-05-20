@@ -16,8 +16,6 @@ Egy multimodulos maven alkalmazás, mely a következő technológiákat használ
 ----
 Az alkalmazás előfeltétele a [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)-as, vagy későbbi verziója. Valamint a [Maven](https://maven.apache.org/) automatizáló szoftver.
 
-### Telepítés
-----
 A Maven segítségével történik *(A projekt fő könyvtárában állva)*:
 
 ```sh
