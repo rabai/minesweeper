@@ -3,8 +3,9 @@
 Ez az alkalmazás egy aknakereső játék egyszerű megvalósítása. A játékban elérhető funkciók a következők: 
   - Új játék: 25-50-100-150-225 mezővel *(aknák generálása ezek alapján)*
   - Mentett állás betöltése *(id alapján)*
-### Használt technológiák:
 
+### Használt technológiák:
+----
 Egy multimodulos maven alkalmazás, mely a következő technológiákat használja:
 
 * [Maven] - Multi modul használatával készül el az alkalmazás.
@@ -12,10 +13,11 @@ Egy multimodulos maven alkalmazás, mely a következő technológiákat használ
 * [JAXB] - Az adatbázis kezeléséért felelős technológia.
 
 ### Telepítés
-
+----
 Az alkalmazás előfeltétele a [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)-as, vagy későbbi verziója. Valamint a [Maven](https://maven.apache.org/) automatizáló szoftver.
 
 ### Pluginok
+----
 Dillinger is currently extended with the following plugins
 * Dropbox
 * Github
@@ -23,6 +25,7 @@ Dillinger is currently extended with the following plugins
 * OneDrive
 
 ### Telepítés
+----
 A Maven segítségével történik *(A projekt fő könyvtárában állva)*:
 
 ```sh
