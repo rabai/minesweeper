@@ -115,8 +115,9 @@ public class DataDaoImpl implements DataDao {
 	 */
 	@Override
 	public Games loadMines() {
-		File file = new File(System.getProperty("user.home") + "/mineSweeperApp", "/db.xml");
-		file.mkdir();
+		File theDir = new File(System.getProperty("user.home"), "mineSweeperApp");
+		theDir.mkdir();
+		File file = new File(theDir, "db.xml");
 		JAXBContext jaxbContext;
 		Games readGames = null;
 		try {
@@ -163,7 +164,7 @@ public class DataDaoImpl implements DataDao {
 					logger.debug("DEBUG - A következő mező {} hozzáadva a játékhoz.", field);
 				}
 			}
-			if (file.exists()) {
+			if (this.loadMines() != null) {
 				Games games = this.loadMines();
 				games.getGames().add(game);
 				jaxbMarshaller.marshal(games, file);
