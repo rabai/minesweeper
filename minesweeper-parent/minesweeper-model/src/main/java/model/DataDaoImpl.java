@@ -1,9 +1,10 @@
 package model;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -144,6 +145,7 @@ public class DataDaoImpl implements DataDao {
 		File file = null;
 		JAXBContext jaxbContext = null;
 		Marshaller jaxbMarshaller = null;
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy.MM.d HH,mm,ss");
 		try {
 			File theDir = new File(System.getProperty("user.home"), "mineSweeperApp");
 			theDir.mkdir();
@@ -151,7 +153,7 @@ public class DataDaoImpl implements DataDao {
 			jaxbContext = JAXBContext.newInstance(Games.class);
 			jaxbMarshaller = jaxbContext.createMarshaller();
 			Game game = new Game();
-			String uniqueID = UUID.randomUUID().toString();
+			String uniqueID = LocalDateTime.now().format(format).toString();
 			game.setMines(new ArrayList<>());
 			game.setId(uniqueID);
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);

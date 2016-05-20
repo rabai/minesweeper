@@ -147,10 +147,11 @@ public class MineSweeperController {
 	
 	public Pane populate() {
 		Pane root = new Pane();
+		double randomToGenerate = (xTiles+yTiles)/100.0;
 		// sorfolytonosan tölti
 		for (int y = 0; y < yTiles; y++) {
 			for (int x = 0; x < xTiles; x++) {
-				Data filled = new Data(x, y, Math.random() < 0.1);	//mineSize == XTiles+YTiles-2
+				Data filled = new Data(x, y, Math.random() < randomToGenerate);
 				filled.setTile(new Rectangle(TILESIZE - 2, TILESIZE - 2));
 				filled.getTile().setStroke(Color.BLUE);
 				filled.getTile().setFill(Color.GREY);
