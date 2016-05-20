@@ -2,7 +2,7 @@
 
 Ez az alkalmazás egy aknakereső játék egyszerű megvalósítása. A játékban elérhető funkciók a következők: 
   - Új játék: 25-50-100-150-225 mezővel *(aknák generálása ezek alapján)*
-  - Mentett állás betöltése *(id alapján)*
+  - Mentett állás betöltése *(id alapján, ami a mentés ideje)*
 
 ### Használt technológiák:
 ----
