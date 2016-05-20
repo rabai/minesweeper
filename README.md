@@ -38,7 +38,7 @@ java -jar minesweeper-view-1.0-jar-with-dependencies.jar
 ```
 Ezzel el is indul a kezdőképernyő és kezdődhet a játék!
 
-License
+### License
 ----
 [GNU GPLv3](http://www.gnu.org/licenses/gpl-3.0.html)
 
