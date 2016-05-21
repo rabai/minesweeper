@@ -28,6 +28,19 @@ java -jar minesweeper-view-1.0-jar-with-dependencies.jar
 ```
 Ezzel el is indul a kezdőképernyő és kezdődhet a játék!
 
+### Site
+----
+Az alkalmazás site-ját a következőképp lehet elkészíteni *(A projekt fő könyvtárában állva)*:
+```sh
+mvn site
+```
+Ez elkészíti az aggregált report, javadoc oldalakat a: 
+```sh
+cd target/staging
+index.xhtml
+```
+Így be fog jönni a szülő projekt kezdőoldala.
+
 ### License
 ----
 [GNU GPLv3](http://www.gnu.org/licenses/gpl-3.0.html)
