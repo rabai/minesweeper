@@ -34,7 +34,7 @@ Az alkalmazás site-ját a következőképp lehet elkészíteni *(A projekt fő 
 ```sh
 mvn site
 ```
-Ez elkészíti az aggregált report, javadoc oldalakat a: 
+Ez elkészíti az aggregált report, javadoc oldalakat a szülő oldalának megnyitásához: 
 ```sh
 cd target/staging
 index.xhtml
