@@ -68,32 +68,7 @@ public class MineSweeperController {
 		root.setMaxHeight(HEIGHT);
 		root.setCenter(populate());
 		HBox hbButtons = new HBox();
-		hbButtons.setAlignment(Pos.CENTER);
-		hbButtons.setSpacing(10.0);
-		save = new Button("Mentés");
-		save.setOnMouseClicked(b -> {
-			data.saveMines(board);
-		});
-		back = new Button("Vissza");
-		back.setOnMouseClicked(b -> {
-			Stage dialog = new Stage();
-			FXMLLoader newGamefXMLLoader = new FXMLLoader(getClass().getResource("/view/NewGameDialog.fxml"));
-			try {
-				Parent backRoot = newGamefXMLLoader.load();
-				Scene dialogScene = new Scene(backRoot);
-				dialog.setScene(dialogScene);
-				dialog.show();
-				Stage actualStage = (Stage) back.getScene().getWindow();
-				actualStage.close();
-			} catch (Exception e) {
-				logger.error("ERROR - {}", e);
-			}
-		});
-		exit = new Button("Kilépés");
-		exit.setOnMouseClicked(b -> {
-			logger.info("KILÉPÉS");
-			System.exit(0);
-		});
+		createButtons(data, hbButtons);
 		hbButtons.getChildren().addAll(back, save, exit);
 		root.setBottom(hbButtons);
 		return root;
@@ -113,6 +88,14 @@ public class MineSweeperController {
 			}
 		}
 		HBox hbButtons = new HBox();
+		createButtons(data, hbButtons);
+		hbButtons.getChildren().addAll(back, save, exit);
+		root.setBottom(hbButtons);
+		logger.info("INFO - Játékállás sikeresen betöltve.");
+		return root;
+	}
+
+	private void createButtons(DataDao data, HBox hbButtons) {
 		hbButtons.setAlignment(Pos.CENTER);
 		hbButtons.setSpacing(10.0);
 		save = new Button("Mentés");
@@ -139,10 +122,6 @@ public class MineSweeperController {
 			logger.info("KILÉPÉS");
 			System.exit(0);
 		});
-		hbButtons.getChildren().addAll(back, save, exit);
-		root.setBottom(hbButtons);
-		logger.info("INFO - Játékállás sikeresen betöltve.");
-		return root;
 	}
 	
 	public Pane populate() {
@@ -152,23 +131,7 @@ public class MineSweeperController {
 		for (int y = 0; y < yTiles; y++) {
 			for (int x = 0; x < xTiles; x++) {
 				Data filled = new Data(x, y, Math.random() < randomToGenerate);
-				filled.setTile(new Rectangle(TILESIZE - 2, TILESIZE - 2));
-				filled.getTile().setStroke(Color.BLUE);
-				filled.getTile().setFill(Color.GREY);
-				filled.setText(new Text());
-				filled.getText().setFont(Font.font(18));
-				filled.getText().setText(filled.isMine() ? "X" : "");
-				filled.getText().setVisible(false);
-				if (filled.isMine()) {
-					filled.setPicture(new ImageView(new Image(getClass().getResourceAsStream("/images/imgBomb.png"))));
-					filled.getPicture().setFitWidth(filled.getTile().getWidth());
-					filled.getPicture().setFitHeight(filled.getTile().getHeight());
-				} else {
-					filled.setPicture(null);
-				}
-				filled.getChildren().addAll(filled.getTile(), filled.getText());
-				filled.setTranslateX(x * TILESIZE);
-				filled.setTranslateY(y * TILESIZE);
+				setFieldProperties(y, x, filled);
 				filled.setOnMouseClicked(e -> {
 					if (e.getButton().equals(MouseButton.PRIMARY)) {
 						open(filled);
@@ -191,23 +154,7 @@ public class MineSweeperController {
 		Pane root = new Pane();
 		for (MineInfo mine : game.getMines()) {
 			Data filled = new Data(mine.getX(), mine.getY(), mine.isMine());
-			filled.setTile(new Rectangle(TILESIZE - 2, TILESIZE - 2));
-			filled.getTile().setStroke(Color.BLUE);
-			filled.getTile().setFill(Color.GREY);
-			filled.setText(new Text());
-			filled.getText().setFont(Font.font(18));
-			filled.getText().setText(filled.isMine() ? "X" : "");
-			filled.getText().setVisible(false);
-			if (filled.isMine()) {
-				filled.setPicture(new ImageView(new Image(getClass().getResourceAsStream("/images/imgBomb.png"))));
-				filled.getPicture().setFitWidth(filled.getTile().getWidth());
-				filled.getPicture().setFitHeight(filled.getTile().getHeight());
-			} else {
-				filled.setPicture(null);
-			}
-			filled.getChildren().addAll(filled.getTile(), filled.getText());
-			filled.setTranslateX(mine.getX() * TILESIZE);
-			filled.setTranslateY(mine.getY() * TILESIZE);
+			setFieldProperties(mine.getX(), mine.getY(), filled);
 			filled.setOnMouseClicked(e -> {
 				if (e.getButton().equals(MouseButton.PRIMARY)) {
 					open(filled);
@@ -231,6 +178,26 @@ public class MineSweeperController {
 		root.setTranslateX((WIDTH-xTiles*TILESIZE)/2-10);
 		fillText();
 		return root;
+	}
+	
+	private void setFieldProperties(int y, int x, Data filled) {
+		filled.setTile(new Rectangle(TILESIZE - 2, TILESIZE - 2));
+		filled.getTile().setStroke(Color.BLUE);
+		filled.getTile().setFill(Color.GREY);
+		filled.setText(new Text());
+		filled.getText().setFont(Font.font(18));
+		filled.getText().setText(filled.isMine() ? "X" : "");
+		filled.getText().setVisible(false);
+		if (filled.isMine()) {
+			filled.setPicture(new ImageView(new Image(getClass().getResourceAsStream("/images/imgBomb.png"))));
+			filled.getPicture().setFitWidth(filled.getTile().getWidth());
+			filled.getPicture().setFitHeight(filled.getTile().getHeight());
+		} else {
+			filled.setPicture(null);
+		}
+		filled.getChildren().addAll(filled.getTile(), filled.getText());
+		filled.setTranslateX(x * TILESIZE);
+		filled.setTranslateY(y * TILESIZE);
 	}
 
 	private void fillText() {
