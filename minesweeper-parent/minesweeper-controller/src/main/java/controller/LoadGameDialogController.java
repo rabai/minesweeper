@@ -19,6 +19,7 @@ import model.DataDao;
 import model.DataDaoImpl;
 import model.Games;
 
+// CHECKSTYLE:OFF
 public class LoadGameDialogController {
 
 	@FXML

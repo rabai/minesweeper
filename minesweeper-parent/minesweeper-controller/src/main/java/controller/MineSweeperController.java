@@ -31,6 +31,7 @@ import model.Game;
 import model.Games;
 import model.MineInfo;
 
+// CHECKSTYLE:OFF
 public class MineSweeperController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MineSweeperController.class);

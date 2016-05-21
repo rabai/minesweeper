@@ -11,6 +11,7 @@ import javafx.stage.Stage;
  * A Main osztály, ahol az alkalmazás elindul.
  *
  */
+// CHECKSTYLE:OFF
 public class Main extends Application {
 
 	/**

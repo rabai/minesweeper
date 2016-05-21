@@ -18,6 +18,7 @@ import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import model.DataDaoImpl;
 
+// CHECKSTYLE:OFF
 public class NewGameDialogController {
 
 	@FXML
