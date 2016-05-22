@@ -16,7 +16,7 @@ Egy multimodulos maven alkalmazás, mely a következő technológiákat használ
 ----
 Az alkalmazás előfeltétele a [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)-as, vagy későbbi verziója. Valamint a [Maven](https://maven.apache.org/) automatizáló szoftver.
 
-A Maven segítségével történik *(A projekt fő könyvtárában állva)*:
+Maga a telepítés a Maven segítségével történik *(A projekt fő könyvtárában állva)*:
 
 ```sh
 mvn clean install
@@ -34,7 +34,7 @@ Az alkalmazás site-ját a következőképp lehet elkészíteni *(A projekt fő 
 ```sh
 mvn site
 ```
-Ez elkészíti az aggregált report, javadoc oldalakat a szülő oldalának megnyitásához: 
+Ez elkészíti az aggregált report, javadoc oldalakat. A szülő oldalának megnyitásához: 
 ```sh
 cd target/staging
 index.xhtml
