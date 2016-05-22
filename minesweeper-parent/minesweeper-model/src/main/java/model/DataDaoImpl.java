@@ -97,7 +97,7 @@ public class DataDaoImpl implements DataDao {
 		Games games;
 		List<String> savedGameIds = null;
 		games = loadMines();
-		if(games == null){
+		if (games == null) {
 			games = new Games();
 			logger.info("INFO - Nem volt még elmentett játékállás.");
 		}
@@ -145,7 +145,7 @@ public class DataDaoImpl implements DataDao {
 		File file = null;
 		JAXBContext jaxbContext = null;
 		Marshaller jaxbMarshaller = null;
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy.MM.d HH,mm,ss");
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy.MM.d HH.mm.ss");
 		try {
 			File theDir = new File(System.getProperty("user.home"), "mineSweeperApp");
 			theDir.mkdir();
@@ -173,7 +173,8 @@ public class DataDaoImpl implements DataDao {
 				logger.trace("TRACE - XML-hez hozzáadva: {}", game);
 			} else {
 				Games games = new Games();
-				logger.debug("DEBUG - Új adatbázis XML létrehozva: {} - elérési útvonala: {}", games, file.getAbsolutePath());
+				logger.debug("DEBUG - Új adatbázis XML létrehozva: {} - elérési útvonala: {}", games,
+						file.getAbsolutePath());
 				games.getGames().add(game);
 				jaxbMarshaller.marshal(games, file);
 				logger.trace("TRACE - XML-hez hozzáadva: {}", game);

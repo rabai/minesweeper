@@ -133,15 +133,6 @@ public class MineSweeperController {
 			for (int x = 0; x < xTiles; x++) {
 				Data filled = new Data(x, y, Math.random() < randomToGenerate);
 				setFieldProperties(y, x, filled);
-				filled.setOnMouseClicked(e -> {
-					if (e.getButton().equals(MouseButton.PRIMARY)) {
-						open(filled);
-					} else if (!filled.isFlagged() && e.getButton().equals(MouseButton.SECONDARY)) {
-						mark(filled);
-					} else if (filled.isFlagged() && e.getButton().equals(MouseButton.SECONDARY)) {
-						removeMark(filled);
-					}
-				});
 				board[x][y] = filled;
 				root.getChildren().add(filled);
 			}
@@ -155,16 +146,7 @@ public class MineSweeperController {
 		Pane root = new Pane();
 		for (MineInfo mine : game.getMines()) {
 			Data filled = new Data(mine.getX(), mine.getY(), mine.isMine());
-			setFieldProperties(mine.getX(), mine.getY(), filled);
-			filled.setOnMouseClicked(e -> {
-				if (e.getButton().equals(MouseButton.PRIMARY)) {
-					open(filled);
-				} else if (!filled.isFlagged() && e.getButton().equals(MouseButton.SECONDARY)) {
-					mark(filled);
-				} else if (filled.isFlagged() && e.getButton().equals(MouseButton.SECONDARY)) {
-					removeMark(filled);
-				}
-			});
+			setFieldProperties(mine.getY(), mine.getX(), filled);
 			filled.setRevealed(mine.isRevealed());
 			if (filled.isRevealed()) {
 				openLoaded(filled);
@@ -199,6 +181,15 @@ public class MineSweeperController {
 		filled.getChildren().addAll(filled.getTile(), filled.getText());
 		filled.setTranslateX(x * TILESIZE);
 		filled.setTranslateY(y * TILESIZE);
+		filled.setOnMouseClicked(e -> {
+			if (e.getButton().equals(MouseButton.PRIMARY)) {
+				open(filled);
+			} else if (!filled.isFlagged() && e.getButton().equals(MouseButton.SECONDARY)) {
+				mark(filled);
+			} else if (filled.isFlagged() && e.getButton().equals(MouseButton.SECONDARY)) {
+				removeMark(filled);
+			}
+		});
 	}
 
 	private void fillText() {

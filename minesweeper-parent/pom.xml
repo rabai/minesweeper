@@ -220,6 +220,13 @@
 				<configuration>
 					<configLocation>src/main/resources/checkstyle.xml</configLocation>
 				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>checkstyle-aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
 			</plugin>
 
 			<plugin>
@@ -248,20 +255,20 @@
 				</reportSets>
 			</plugin>
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.6</version>
-                <configuration>
-                    <minimumTokens>100</minimumTokens>
-                    <rulesets>
-                        <ruleset>/rulesets/java/basic.xml</ruleset>
-                        <ruleset>/rulesets/java/imports.xml</ruleset>
-                        <ruleset>/rulesets/java/unusedcode.xml</ruleset>
-                        <ruleset>/rulesets/java/codesize.xml</ruleset>
-                    </rulesets>
-                    <aggregate>true</aggregate>
-                </configuration>
-            </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.6</version>
+				<configuration>
+					<minimumTokens>100</minimumTokens>
+					<rulesets>
+						<ruleset>/rulesets/java/basic.xml</ruleset>
+						<ruleset>/rulesets/java/imports.xml</ruleset>
+						<ruleset>/rulesets/java/unusedcode.xml</ruleset>
+						<ruleset>/rulesets/java/codesize.xml</ruleset>
+					</rulesets>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
 		</plugins>
 	</reporting>
 </project>
