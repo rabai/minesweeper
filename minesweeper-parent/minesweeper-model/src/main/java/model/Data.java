@@ -56,22 +56,6 @@ public class Data extends StackPane {
 	}
 
 	/**
-	 * Három paraméteres konstruktor egy Data objektum létrehozásásra.
-	 * 
-	 * @param x
-	 *            a mező x koordinátája
-	 * @param y
-	 *            a mező y koordinátája
-	 * @param isMine
-	 *            a mező akna-e
-	 */
-	public Data(int x, int y, boolean isMine) {
-		this.x = x;
-		this.y = y;
-		this.isMine = isMine;
-	}
-
-	/**
 	 * Visszaadja a mező x koordinátáját.
 	 * 
 	 * @return a mező x koordinátája
@@ -253,37 +237,6 @@ public class Data extends StackPane {
 	@Override
 	public String toString() {
 		return "Data [x=" + x + ", y=" + y + ", isMine=" + isMine + ", minesNear=" + minesNear + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (isMine ? 1231 : 1237);
-		result = prime * result + minesNear;
-		result = prime * result + x;
-		result = prime * result + y;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Data other = (Data) obj;
-		if (isMine != other.isMine)
-			return false;
-		if (minesNear != other.minesNear)
-			return false;
-		if (x != other.x)
-			return false;
-		if (y != other.y)
-			return false;
-		return true;
 	}
 
 }

@@ -92,7 +92,7 @@ public class MineSweeperController {
 		createButtons(data, hbButtons);
 		hbButtons.getChildren().addAll(back, save, exit);
 		root.setBottom(hbButtons);
-		logger.info("INFO - Játékállás sikeresen betöltve.");
+		logger.info("Játékállás sikeresen betöltve.");
 		return root;
 	}
 
@@ -115,7 +115,14 @@ public class MineSweeperController {
 				Stage actualStage = (Stage) back.getScene().getWindow();
 				actualStage.close();
 			} catch (Exception e) {
-				logger.error("ERROR - {}", e);
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setContentText("Váratlan hiba történt: " + e.getMessage() + "\nKérlek próbáld újra!");
+				logger.error("{}", alert.getContentText());
+				alert.showAndWait();
+				if (alert.getResult() == ButtonType.OK) {
+					alert.close();
+				}
 			}
 		});
 		exit = new Button("Kilépés");
@@ -131,13 +138,13 @@ public class MineSweeperController {
 		// sorfolytonosan tölti
 		for (int y = 0; y < yTiles; y++) {
 			for (int x = 0; x < xTiles; x++) {
-				Data filled = new Data(x, y, Math.random() < randomToGenerate);
-				setFieldProperties(y, x, filled);
+				Data filled = new Data();
+				setFieldProperties(y, x, Math.random() < randomToGenerate, filled);
 				board[x][y] = filled;
 				root.getChildren().add(filled);
 			}
 		}
-		root.setTranslateX((WIDTH-xTiles*TILESIZE)/2-10);
+		root.setTranslateX((WIDTH-xTiles*TILESIZE)/2-5);
 		fillText();
 		return root;
 	}
@@ -145,8 +152,8 @@ public class MineSweeperController {
 	private Pane fillBoard(Game game) {
 		Pane root = new Pane();
 		for (MineInfo mine : game.getMines()) {
-			Data filled = new Data(mine.getX(), mine.getY(), mine.isMine());
-			setFieldProperties(mine.getY(), mine.getX(), filled);
+			Data filled = new Data();
+			setFieldProperties(mine.getY(), mine.getX(), mine.isMine(), filled);
 			filled.setRevealed(mine.isRevealed());
 			if (filled.isRevealed()) {
 				openLoaded(filled);
@@ -158,12 +165,15 @@ public class MineSweeperController {
 			board[mine.getX()][mine.getY()] = filled;
 			root.getChildren().add(filled);
 		}
-		root.setTranslateX((WIDTH-xTiles*TILESIZE)/2-10);
+		root.setTranslateX((WIDTH-xTiles*TILESIZE)/2-5);
 		fillText();
 		return root;
 	}
 	
-	private void setFieldProperties(int y, int x, Data filled) {
+	private void setFieldProperties(int y, int x, boolean isMine, Data filled) {
+		filled.setX(x);
+		filled.setY(y);
+		filled.setMine(isMine);
 		filled.setTile(new Rectangle(TILESIZE - 2, TILESIZE - 2));
 		filled.getTile().setStroke(Color.BLUE);
 		filled.getTile().setFill(Color.GREY);
@@ -248,7 +258,14 @@ public class MineSweeperController {
 				Stage actualStage = (Stage) back.getScene().getWindow();
 				actualStage.close();
 			} catch (Exception e) {
-				logger.error("ERROR - {}", e);
+				Alert errorAlert = new Alert(AlertType.ERROR);
+				errorAlert.setTitle("Error");
+				alert.setContentText("Váratlan hiba történt: " + e.getMessage() + "\nKérlek próbáld újra!");
+				logger.error("{}", errorAlert.getContentText());
+				errorAlert.showAndWait();
+				if (errorAlert.getResult() == ButtonType.OK) {
+					errorAlert.close();
+				}
 			}
 			alert.close();
 		} else if (alert.getResult() == ButtonType.CANCEL) {

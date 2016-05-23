@@ -40,7 +40,7 @@ public class NewGameDialogController {
 	// navigálás a játékra
 	@FXML
 	public void onStartGameAction(ActionEvent actionEvent) throws IOException {
-		logger.info("INFO - A newGameDialog betöltve.");
+		logger.info("A newGameDialog betöltve.");
 		Stage stage;
 		Parent root;
 		FXMLLoader startGamefXMLLoader = new FXMLLoader(getClass().getResource("/view/MineSweeper.fxml"));
@@ -55,6 +55,7 @@ public class NewGameDialogController {
 			Scene scene = new Scene(root);
 			stage.setScene(scene);
 			stage.show();
+			stage.setResizable(false);
 			stage.setTitle("Aknakereső");
 			Stage actualStage = (Stage) startGame.getScene().getWindow();
 			actualStage.close();
@@ -62,7 +63,7 @@ public class NewGameDialogController {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setContentText("Szélességet és hosszúságot is meg kell adni.");
-			logger.error("ERROR - {}", alert.getContentText());
+			logger.error("{}", alert.getContentText());
 			alert.showAndWait();
 			if (alert.getResult() == ButtonType.OK) {
 				alert.close();
@@ -83,7 +84,14 @@ public class NewGameDialogController {
 			Stage actualStage = (Stage) back.getScene().getWindow();
 			actualStage.close();
 		} catch (Exception e) {
-			logger.error("ERROR - ", e);
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText("Váratlan hiba történt: " + e.getMessage() + "\nKérlek próbáld újra!");
+			logger.error("{}", alert.getContentText());
+			alert.showAndWait();
+			if (alert.getResult() == ButtonType.OK) {
+				alert.close();
+			}
 		}
 	}
 

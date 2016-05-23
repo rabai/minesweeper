@@ -1,6 +1,7 @@
 package model;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -13,6 +14,10 @@ import javax.xml.bind.Unmarshaller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * 
@@ -99,11 +104,11 @@ public class DataDaoImpl implements DataDao {
 		games = loadMines();
 		if (games == null) {
 			games = new Games();
-			logger.info("INFO - Nem volt még elmentett játékállás.");
+			logger.info("Nem volt még elmentett játékállás.");
 		}
 		savedGameIds = new ArrayList<>(games.getGames().size());
 		for (Game game : games.getGames()) {
-			logger.debug("DEBUG - Hozzáadva a return listához: {}", game.getId());
+			logger.debug("Hozzáadva a return listához: {}", game.getId());
 			savedGameIds.add(game.getId());
 		}
 		return savedGameIds;
@@ -125,9 +130,16 @@ public class DataDaoImpl implements DataDao {
 			jaxbContext = JAXBContext.newInstance(Games.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			readGames = (Games) jaxbUnmarshaller.unmarshal(file);
-			logger.info("INFO - Sikeresen betöltve az adatbázis.");
+			logger.info("Sikeresen betöltve az adatbázis.");
 		} catch (JAXBException e) {
-			logger.error("ERROR - {}", e);
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText("Nincs még mentett játékállás!\nKérlek próbáld újra mentés után!");
+			logger.error("{}", alert.getContentText());
+			alert.showAndWait();
+			if (alert.getResult() == ButtonType.OK) {
+				alert.close();
+			}
 		}
 		return readGames;
 	}
@@ -145,44 +157,74 @@ public class DataDaoImpl implements DataDao {
 		File file = null;
 		JAXBContext jaxbContext = null;
 		Marshaller jaxbMarshaller = null;
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy.MM.d HH.mm.ss");
+		boolean isFirstSave = false;
 		try {
 			File theDir = new File(System.getProperty("user.home"), "mineSweeperApp");
 			theDir.mkdir();
 			file = new File(theDir, "db.xml");
+			if(!file.exists()){
+				file.createNewFile();
+				isFirstSave = true;
+			}
 			jaxbContext = JAXBContext.newInstance(Games.class);
 			jaxbMarshaller = jaxbContext.createMarshaller();
 			Game game = new Game();
-			String uniqueID = LocalDateTime.now().format(format).toString();
-			game.setMines(new ArrayList<>());
-			game.setId(uniqueID);
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-			for (int y = 0; y < yTiles; y++) {
-				for (int x = 0; x < xTiles; x++) {
-					MineInfo field = new MineInfo(board[x][y].getX(), board[x][y].getY(), board[x][y].isMine(),
-							board[x][y].isRevealed(), board[x][y].getMinesNear(), board[x][y].isFlagged());
-					game.getMines().add(field);
-					logger.debug("DEBUG - A következő mező {} hozzáadva a játékhoz.", field);
-				}
-			}
-			if (this.loadMines() != null) {
+			game = fillToBeSaved(board);
+			
+			if (!isFirstSave) {
 				Games games = this.loadMines();
 				games.getGames().add(game);
 				jaxbMarshaller.marshal(games, file);
-				logger.trace("TRACE - XML-hez hozzáadva: {}", game);
+				logger.trace("XML-hez hozzáadva: {}", game);
 			} else {
 				Games games = new Games();
-				logger.debug("DEBUG - Új adatbázis XML létrehozva: {} - elérési útvonala: {}", games,
+				logger.debug("Új adatbázis XML létrehozva: {} - elérési útvonala: {}", games,
 						file.getAbsolutePath());
 				games.getGames().add(game);
 				jaxbMarshaller.marshal(games, file);
-				logger.trace("TRACE - XML-hez hozzáadva: {}", game);
+				logger.trace("XML-hez hozzáadva: {}", game);
 			}
 
-		} catch (JAXBException e) {
-			logger.error("ERROR - {}", e);
+		} catch (JAXBException | IOException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText("A következő hiba történt: " + e.getMessage() + "\nKérlek próbáld újra!");
+			logger.error("{}", alert.getContentText());
+			alert.showAndWait();
+			if (alert.getResult() == ButtonType.OK) {
+				alert.close();
+			}
 		}
+	}
+
+	/**
+	 * Beállítja az adatbázisba menteni kívánt táblát.
+	 * @param board a paraméterként kapott feltöltendő tábla
+	 * @return egy {@link model.Game} objektum, a paraméterként kapott táblával feltöltve
+	 */
+	@Override
+	public Game fillToBeSaved(Data[][] board) {
+		Game game = new Game();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy.MM.d HH.mm.ss");
+		String uniqueID = LocalDateTime.now().format(format).toString();
+		game.setMines(new ArrayList<>());
+		game.setId(uniqueID);
+		for (int y = 0; y < yTiles; y++) {
+			for (int x = 0; x < xTiles; x++) {
+				MineInfo field = new MineInfo();
+				field.setX(board[x][y].getX());
+				field.setY(board[x][y].getY());
+				field.setMine(board[x][y].isMine());
+				field.setRevealed(board[x][y].isRevealed()); 
+				field.setMinesNear(board[x][y].getMinesNear());
+				field.setFlagged(board[x][y].isFlagged());
+				game.getMines().add(field);
+				logger.debug("A következő mező {} hozzáadva a játékhoz.", field);
+			}
+		}
+		return game;
 	}
 
 	/**

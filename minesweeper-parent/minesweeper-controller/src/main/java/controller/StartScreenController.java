@@ -53,7 +53,7 @@ public class StartScreenController {
 		dialog.setScene(dialogScene);
 		dialog.show();
 		dialog.setTitle("Új játék");
-		logger.info("INFO - Új játék indítás kezdeményezve.");
+		logger.info("Új játék indítás kezdeményezve.");
 		Stage actualStage = (Stage) newGame.getScene().getWindow();
 		actualStage.close();
 	}
@@ -70,7 +70,7 @@ public class StartScreenController {
 		dialog.setScene(dialogScene);
 		dialog.show();
 		dialog.setTitle("Mentett állás betöltése");
-		logger.info("INFO - Játék betöltés kezdeményezve.");
+		logger.info("Játék betöltés kezdeményezve.");
 		Stage actualStage = (Stage) loadGame.getScene().getWindow();
 		actualStage.close();
 	}

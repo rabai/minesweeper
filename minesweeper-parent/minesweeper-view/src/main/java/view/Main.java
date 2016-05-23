@@ -5,7 +5,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 /**
  * A Main osztály, ahol az alkalmazás elindul.
@@ -20,9 +20,9 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) {
-		AnchorPane root;
+		GridPane root;
 		try {
-			root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/StartScreen.fxml"));
+			root = (GridPane) FXMLLoader.load(getClass().getResource("/view/StartScreen.fxml"));
 			
 			Scene scene = new Scene(root);
 			

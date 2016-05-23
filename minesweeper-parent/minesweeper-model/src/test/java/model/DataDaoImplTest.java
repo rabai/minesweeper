@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 public class DataDaoImplTest {
@@ -13,7 +15,10 @@ public class DataDaoImplTest {
 		Data board[][] = new Data[xTiles][yTiles];
 		for (int y = 0; y < yTiles; y++) {
 			for (int x = 0; x < xTiles; x++) {
-				Data filled = new Data(x, y, Math.random() < 0.1);
+				Data filled = new Data();
+				filled.setX(x);
+				filled.setY(y);
+				filled.setMine(Math.random() < 0.1);
 				board[x][y] = filled;
 			}
 		}
@@ -68,6 +73,40 @@ public class DataDaoImplTest {
 		assertEquals(3, dataDaoImpl.getNeighbours(board[0][0], board).size());
 		assertFalse(8 == dataDaoImpl.getNeighbours(board[4][4], board).size());
 	}
+	
+	@Test
+	public void testGetMinesNear() {
+		DataDaoImpl dataDaoImpl = new DataDaoImpl();
+		dataDaoImpl.setxTiles(5);
+		dataDaoImpl.setyTiles(5);
+		Data board[][] = generateBoard(5, 5);
+		board[1][1].setMine(false);
+		board[1][2].setMine(true);
+		board[1][3].setMine(true);
+		board[2][3].setMine(false);
+		board[2][1].setMine(true);
+		board[3][1].setMine(false);
+		board[3][2].setMine(true);
+		board[3][3].setMine(false);
+		long neighboursWithMines = dataDaoImpl.getNeighbours(board[2][2], board)
+				.stream().filter(s -> s.isMine()).count();
+		board[2][2].setMinesNear((int)neighboursWithMines);
+		assertEquals(4, board[2][2].getMinesNear());
+		assertFalse(board[2][2].getMinesNear() == 5);
+	}
+	
+	@Test
+	public void testFillToBeSaved() {
+		DataDaoImpl dataDaoImpl = new DataDaoImpl();
+		dataDaoImpl.setxTiles(5);
+		dataDaoImpl.setyTiles(5);
+		Game game = new Game();
+		game.setMines(new ArrayList<>());
+		game.setId("test");
+		Data board[][] = generateBoard(5, 5);
+		game = dataDaoImpl.fillToBeSaved(board);
+		assertNotNull(game);
+	}
 
 	@Test
 	public void testGetxTiles() {
@@ -78,6 +117,7 @@ public class DataDaoImplTest {
 		assertFalse(daoImpl.getxTiles() == 3);
 		assertEquals(4, daoImpl.getxTiles());
 	}
+	
 
 	@Test
 	public void testSetxTiles() {

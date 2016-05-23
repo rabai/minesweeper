@@ -12,8 +12,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import model.DataDao;
 import model.DataDaoImpl;
@@ -40,7 +43,7 @@ public class LoadGameDialogController {
 		DataDao data = new DataDaoImpl();
 		ObservableList<String> list = FXCollections.observableArrayList(data.getSavedGameIds());
 		loadItem.setItems(list);
-		logger.debug("DEBUG - Mentett ID-k sikeresen felvéve.");
+		logger.debug("Mentett ID-k sikeresen felvéve.");
 	}
 	
 	@FXML
@@ -50,7 +53,7 @@ public class LoadGameDialogController {
 		FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/view/MineSweeper.fxml"));
 		try {
 			fXMLLoader.load();
-			logger.info("INFO - A loadDialog betöltve.");
+			logger.info(" A loadDialog betöltve.");
 			setId(loadItem.getSelectionModel().getSelectedItem());
 			stage = new Stage();
 			if (getId() != null) {
@@ -71,12 +74,21 @@ public class LoadGameDialogController {
 						ySize + 1);
 				Scene scene = new Scene(root);
 				stage.setScene(scene);
+				stage.setResizable(false);
+				stage.setTitle("Aknakereső");
 				stage.show();
 				Stage actualStage = (Stage) loadSavedGame.getScene().getWindow();
 				actualStage.close();
 			}
 		} catch (IOException e) {
-			logger.error("ERROR - ", e);
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText("Váratlan hiba történt: " + e.getMessage() + "\nKérlek próbáld újra!");
+			logger.error("{}", alert.getContentText());
+			alert.showAndWait();
+			if (alert.getResult() == ButtonType.OK) {
+				alert.close();
+			}
 		}
 	}
 	
@@ -93,7 +105,14 @@ public class LoadGameDialogController {
 			Stage actualStage = (Stage) back.getScene().getWindow();
 			actualStage.close();
 		} catch (Exception e) {
-			logger.error("ERROR - ", e);
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText("Váratlan hiba történt: " + e.getMessage() + "\nKérlek próbáld újra!");
+			logger.error("{}", alert.getContentText());
+			alert.showAndWait();
+			if (alert.getResult() == ButtonType.OK) {
+				alert.close();
+			}
 		}
 	}
 

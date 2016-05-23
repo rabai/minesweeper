@@ -69,5 +69,12 @@ public interface DataDao {
 	 *         szomszédai
 	 */
 	List<Data> getNeighbours(Data tile, Data[][] board);
+	
+	/**
+	 * Beállítja az adatbázisba menteni kívánt táblát.
+	 * @param board a paraméterként kapott feltöltendő tábla
+	 * @return egy {@link model.Game} objektum, a paraméterként kapott táblával feltöltve
+	 */
+	Game fillToBeSaved(Data[][] board);
 
 }

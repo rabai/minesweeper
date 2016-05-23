@@ -24,7 +24,7 @@
 		<name>Abai Richárd</name>
 	</organization>
 	<name>Aknakereso</name>
-	<description>Ez az alkalmazás egy multi modulos aknakereső játék JavaFX környezetben.</description>
+	<description>Aknakereső játék JavaFX környezetben.</description>
 	<licenses>
 		<license>
 			<name>GNU GENERAL PUBLIC LICENSE, Version 3</name>
