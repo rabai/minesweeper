@@ -186,7 +186,14 @@ public class DataDaoImpl implements DataDao {
 				jaxbMarshaller.marshal(games, file);
 				logger.trace("XML-hez hozzáadva: {}", game);
 			}
-
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setHeaderText("Sikeres mentés");
+			alert.setContentText("A játékállás elmentve.");
+			logger.error("{}", alert.getContentText());
+			alert.showAndWait();
+			if (alert.getResult() == ButtonType.OK) {
+				alert.close();
+			}
 		} catch (JAXBException | IOException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
